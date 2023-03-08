@@ -9,11 +9,30 @@ let users = [
 router
   .route("/users")
   .get((req, res) => {
+    if (users.length > 0) {
+      res.json({
+        status: true,
+        data: users,
+        method: req.method,
+        url: req.url,
+      });
+    } else {
+      res.json({
+        status: false,
+        message: "Data Masih Kosong",
+      });
+    }
     res.json(users);
   })
   .post((req, res) => {
     users.push(req.body);
-    res.send(req.body);
+    res.send({
+      status: true,
+      data: users,
+      message: "Data Berhasil Ditambahkan",
+      method: req.method,
+      url: req.url,
+    });
   });
 
 router.put("/users/:id", (req, res) => {
@@ -27,7 +46,13 @@ router.put("/users/:id", (req, res) => {
       return user;
     }
   });
-  res.json(users);
+  res.json({
+    status: true,
+    data: users,
+    message: "Data Berhasil Diubah",
+    method: req.method,
+    url: req.url,
+  });
 });
 
 router.delete("/users/:userId", (req, res) => {
@@ -37,7 +62,13 @@ router.delete("/users/:userId", (req, res) => {
       return user;
     }
   });
-  res.json(users);
+  res.json({
+    status: true,
+    data: users,
+    message: "Data Berhasil Dihapus",
+    method: req.method,
+    url: req.url,
+  });
 });
 
 module.exports = router;
